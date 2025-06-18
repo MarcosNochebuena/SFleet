@@ -3,7 +3,9 @@ source "https://rubygems.org"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 2.1"
+# gem "sqlite3", ">= 2.1"
+# Use postgresql as the database for Active Record
+gem "pg", ">= 1.2"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -19,6 +21,9 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
+
+# Audited
+gem "audited"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -38,7 +43,11 @@ gem "thruster", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-
+  # Tests
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "rails-controller-testing"
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
