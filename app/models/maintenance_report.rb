@@ -35,6 +35,12 @@ class MaintenanceReport < ApplicationRecord
 
   after_save :create_service_order, if: :high_priority?
 
+  scope :status, ->(status) { where(status: status) }
+  scope :priority, ->(priority) { where(priority: priority) }
+  scope :vehicle_id, ->(vehicle_id) { where(vehicle_id: vehicle_id) }
+  scope :report_date, ->(report_date) { where(report_date: report_date) }
+  scope :description, ->(description) { where(description: description) }
+
   private
 
   def high_priority?

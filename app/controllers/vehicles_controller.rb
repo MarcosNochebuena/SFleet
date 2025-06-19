@@ -1,9 +1,10 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[ show update destroy update_status ]
+  has_scope :status, :license_plate, :make, :by_model, :year, only: %i[ index ]
 
   # GET /vehicles
   def index
-    @vehicles = Vehicle.all
+    @vehicles = apply_scopes(Vehicle).all
 
     render json: @vehicles
   end

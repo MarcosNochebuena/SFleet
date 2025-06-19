@@ -1,9 +1,10 @@
 class ServiceOrdersController < ApplicationController
   before_action :set_service_order, only: %i[ show update destroy update_status ]
+  has_scope :status, :vehicle_id, :maintenance_report_id, :creation_date, :estimated_cost, only: %i[ index ]
 
   # GET /service_orders
   def index
-    @service_orders = ServiceOrder.all
+    @service_orders = apply_scopes(ServiceOrder).all
 
     render json: @service_orders
   end

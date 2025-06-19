@@ -31,4 +31,11 @@ class ServiceOrder < ApplicationRecord
 
   # Enum Status
   enum :status, { open: 0, in_progress: 1, closed: 2 }, default: :open
+
+  # Scopes
+  scope :status, ->(status) { where(status: status) }
+  scope :vehicle_id, ->(vehicle_id) { where(vehicle_id: vehicle_id) }
+  scope :maintenance_report_id, ->(maintenance_report_id) { where(maintenance_report_id: maintenance_report_id) }
+  scope :creation_date, ->(creation_date) { where(creation_date: creation_date) }
+  scope :estimated_cost, ->(estimated_cost) { where(estimated_cost: estimated_cost) }
 end

@@ -1,9 +1,10 @@
 class MaintenanceReportsController < ApplicationController
   before_action :set_maintenance_report, only: %i[ show update destroy ]
+  has_scope :description, :priority, :status, :vehicle_id, :report_date, only: %i[ index ]
 
   # GET /maintenance_reports
   def index
-    @maintenance_reports = MaintenanceReport.all
+    @maintenance_reports = apply_scopes(MaintenanceReport).all
 
     render json: @maintenance_reports
   end
