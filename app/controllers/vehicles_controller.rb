@@ -1,5 +1,5 @@
 class VehiclesController < ApplicationController
-  before_action :set_vehicle, only: %i[ show update destroy ]
+  before_action :set_vehicle, only: %i[ show update destroy update_status ]
 
   # GET /vehicles
   def index
@@ -31,6 +31,11 @@ class VehiclesController < ApplicationController
     else
       render json: @vehicle.errors, status: :unprocessable_entity
     end
+  end
+
+  def update_status
+    @vehicle.update(status: vehicle_params[:status])
+    render json: @vehicle
   end
 
   # DELETE /vehicles/1

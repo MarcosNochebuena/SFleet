@@ -1,5 +1,5 @@
 class ServiceOrdersController < ApplicationController
-  before_action :set_service_order, only: %i[ show update destroy ]
+  before_action :set_service_order, only: %i[ show update destroy update_status ]
 
   # GET /service_orders
   def index
@@ -32,6 +32,11 @@ class ServiceOrdersController < ApplicationController
     else
       render json: @service_order.errors, status: :unprocessable_entity
     end
+  end
+
+  def update_status
+    @service_order.update(status: service_order_params[:status])
+    render json: @service_order, status: :ok
   end
 
   # DELETE /service_orders/1
