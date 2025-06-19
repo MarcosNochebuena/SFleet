@@ -28,5 +28,7 @@ module SFleet
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    # Cargar clase para el correcto funcionamiento de Audited
+    config.active_record.yaml_column_permitted_classes = [Date, BigDecimal, Time, ActiveSupport::TimeWithZone,  ActiveSupport::TimeZone]
   end
 end
