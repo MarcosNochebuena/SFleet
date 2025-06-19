@@ -21,7 +21,7 @@
 #
 FactoryBot.define do
   factory :maintenance_report do
-    vehicle { nil }
+    vehicle { FactoryBot.create(:vehicle) }
     description { "MyString" }
     report_date { "2025-06-18" }
     priority { 1 }
