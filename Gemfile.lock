@@ -72,6 +72,9 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
+    annotaterb (4.16.0)
+      activerecord (>= 6.0.0)
+      activesupport (>= 6.0.0)
     ast (2.4.3)
     audited (5.8.0)
       activerecord (>= 5.2, < 8.2)
@@ -339,6 +342,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  annotaterb
   audited
   bootsnap
   brakeman

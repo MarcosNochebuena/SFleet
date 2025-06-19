@@ -1,0 +1,51 @@
+class MaintenanceReportsController < ApplicationController
+  before_action :set_maintenance_report, only: %i[ show update destroy ]
+
+  # GET /maintenance_reports
+  def index
+    @maintenance_reports = MaintenanceReport.all
+
+    render json: @maintenance_reports
+  end
+
+  # GET /maintenance_reports/1
+  def show
+    render json: @maintenance_report
+  end
+
+  # POST /maintenance_reports
+  def create
+    @maintenance_report = MaintenanceReport.new(maintenance_report_params)
+
+    if @maintenance_report.save
+      render json: @maintenance_report, status: :created, location: @maintenance_report
+    else
+      render json: @maintenance_report.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /maintenance_reports/1
+  def update
+    if @maintenance_report.update(maintenance_report_params)
+      render json: @maintenance_report
+    else
+      render json: @maintenance_report.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /maintenance_reports/1
+  def destroy
+    @maintenance_report.destroy!
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_maintenance_report
+      @maintenance_report = MaintenanceReport.find(params.expect(:id))
+    end
+
+    # Only allow a list of trusted parameters through.
+    def maintenance_report_params
+      params.expect(maintenance_report: [ :vehicle_id, :description, :report_date, :priority, :status ])
+    end
+end
