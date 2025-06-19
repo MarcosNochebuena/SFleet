@@ -16,6 +16,7 @@ class MaintenanceReportsController < ApplicationController
   # POST /maintenance_reports
   def create
     @maintenance_report = MaintenanceReport.new(maintenance_report_params)
+    @maintenance_report.report_date = Date.current if @maintenance_report.report_date.blank?
 
     if @maintenance_report.save
       render json: @maintenance_report, status: :created, location: @maintenance_report

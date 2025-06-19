@@ -16,6 +16,7 @@ class ServiceOrdersController < ApplicationController
   # POST /service_orders
   def create
     @service_order = ServiceOrder.new(service_order_params)
+    @service_order.creation_date = Date.current if @service_order.creation_date.blank?
 
     if @service_order.save
       render json: @service_order, status: :created, location: @service_order
@@ -46,6 +47,6 @@ class ServiceOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def service_order_params
-      params.expect(service_order: [ :vehicle_id, :report_id, :creation_date, :status, :estimated_cost ])
+      params.expect(service_order: [ :vehicle_id, :maintenance_report_id, :creation_date, :status, :estimated_cost ])
     end
 end
