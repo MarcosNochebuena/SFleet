@@ -22,6 +22,7 @@
 class MaintenanceReport < ApplicationRecord
   audited
   belongs_to :vehicle
+  has_many :service_orders
 
   # Validations
   validates :description, :vehicle_id, :report_date, :priority, :status, presence: true
@@ -31,4 +32,27 @@ class MaintenanceReport < ApplicationRecord
 
   # Enum Priority
   enum :priority, { high: 0, medium: 1, low: 2 }, default: :high
+
+  after_save :create_service_order, if: :high_priority?
+
+  private
+
+  def high_priority?
+    high? && saved_change_to_priority?(to: :high)
+  end
+
+  def create_service_order
+    ActiveRecord::Base.transaction do
+      vehicle.update!(status: :in_maintenance)
+      service_orders.create!(
+        status: :open,
+        creation_date: Time.current.to_date,
+        estimated_cost: 0.0,
+        vehicle: vehicle
+      )
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error "Error processing service order: #{e.message}"
+    raise e
+  end
 end
