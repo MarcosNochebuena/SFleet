@@ -22,4 +22,13 @@
 class MaintenanceReport < ApplicationRecord
   audited
   belongs_to :vehicle
+
+  # Validations
+  validates :description, :vehicle_id, :report_date, :priority, :status, presence: true
+
+  # Enum Status
+  enum :status, { pending: 0, processed: 1, refused: 2 }, default: :pending
+
+  # Enum Priority
+  enum :priority, { high: 0, medium: 1, low: 2 }, default: :high
 end

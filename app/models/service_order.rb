@@ -25,4 +25,10 @@ class ServiceOrder < ApplicationRecord
   audited
   belongs_to :vehicle
   belongs_to :maintenance_report
+
+  # Validations
+  validates :creation_date, :status, :vehicle_id, :maintenance_report_id, presence: true
+
+  # Enum Status
+  enum :status, { open: 0, in_progress: 1, closed: 2 }, default: :open
 end
