@@ -22,10 +22,11 @@
 class MaintenanceReport < ApplicationRecord
   audited
   belongs_to :vehicle
-  has_many :service_orders
+  has_many :service_orders, dependent: :destroy
 
   # Validations
   validates :description, :vehicle_id, :report_date, :priority, :status, presence: true
+  validates :report_date, date: { on_or_before: -> { Date.current }, type: :date, message: "Report date must be a valid date" }
 
   # Enum Status
   enum :status, { pending: 0, processed: 1, refused: 2 }, default: :pending
@@ -52,7 +53,7 @@ class MaintenanceReport < ApplicationRecord
       vehicle.update!(status: :in_maintenance)
       service_orders.create!(
         status: :open,
-        creation_date: Time.current.to_date,
+        creation_date: Date.current,
         estimated_cost: 0.0,
         vehicle: vehicle
       )
