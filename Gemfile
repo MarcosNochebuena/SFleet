@@ -25,6 +25,9 @@ gem "solid_cable"
 # Audited
 gem "audited"
 
+# Scopes
+gem 'has_scope'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 

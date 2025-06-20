@@ -1,9 +1,10 @@
 class ServiceOrdersController < ApplicationController
-  before_action :set_service_order, only: %i[ show update destroy ]
+  before_action :set_service_order, only: %i[ show update destroy update_status ]
+  has_scope :status, :vehicle_id, :maintenance_report_id, :creation_date, :estimated_cost, only: %i[ index ]
 
   # GET /service_orders
   def index
-    @service_orders = ServiceOrder.all
+    @service_orders = apply_scopes(ServiceOrder).all
 
     render json: @service_orders
   end
@@ -18,20 +19,19 @@ class ServiceOrdersController < ApplicationController
     @service_order = ServiceOrder.new(service_order_params)
     @service_order.creation_date = Date.current if @service_order.creation_date.blank?
 
-    if @service_order.save
-      render json: @service_order, status: :created, location: @service_order
-    else
-      render json: @service_order.errors, status: :unprocessable_entity
-    end
+    @service_order.save!
+    render json: @service_order, status: :created, location: @service_order
   end
 
   # PATCH/PUT /service_orders/1
   def update
-    if @service_order.update(service_order_params)
-      render json: @service_order
-    else
-      render json: @service_order.errors, status: :unprocessable_entity
-    end
+    @service_order.update(service_order_params)
+    render json: @service_order
+  end
+
+  def update_status
+    @service_order.update(status: service_order_params[:status])
+    render json: @service_order, status: :ok
   end
 
   # DELETE /service_orders/1
@@ -42,11 +42,11 @@ class ServiceOrdersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_service_order
-      @service_order = ServiceOrder.find(params.expect(:id))
+      @service_order = ServiceOrder.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def service_order_params
-      params.expect(service_order: [ :vehicle_id, :maintenance_report_id, :creation_date, :status, :estimated_cost ])
+      params.require(:service_order).permit(:vehicle_id, :maintenance_report_id, :creation_date, :status, :estimated_cost)
     end
 end
