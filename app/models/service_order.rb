@@ -28,11 +28,13 @@ class ServiceOrder < ApplicationRecord
 
   # Validations
   validates :creation_date, :status, :vehicle_id, :maintenance_report_id, presence: true
-  validates :creation_date, date: { on_or_before: -> { Date.current }, type: :date, message: "Creation date must be a valid date" }
+  validates :creation_date, comparison: { less_than_or_equal_to: Time.now, message: "Creation date must be a valid date" }
   validates :estimated_cost, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1000000, message: "Estimated cost must be between 0 and 1000000" }
 
   # Enum Status
   enum :status, { open: 0, in_progress: 1, closed: 2 }, default: :open
+
+  after_save :simulate_maintenance, if: :open?
 
   # Scopes
   scope :status, ->(status) { where(status: status) }
@@ -40,4 +42,10 @@ class ServiceOrder < ApplicationRecord
   scope :maintenance_report_id, ->(maintenance_report_id) { where(maintenance_report_id: maintenance_report_id) }
   scope :creation_date, ->(creation_date) { where(creation_date: creation_date) }
   scope :estimated_cost, ->(estimated_cost) { where(estimated_cost: estimated_cost) }
+
+  private
+
+  def simulate_maintenance
+    SimulateMaintenanceJob.perform_later(id)
+  end
 end

@@ -26,7 +26,7 @@ class MaintenanceReport < ApplicationRecord
 
   # Validations
   validates :description, :vehicle_id, :report_date, :priority, :status, presence: true
-  validates :report_date, date: { on_or_before: -> { Date.current }, type: :date, message: "Report date must be a valid date" }
+  validates :report_date, comparison: { less_than_or_equal_to: Time.now, message: "Report date must be a valid date" }
 
   # Enum Status
   enum :status, { pending: 0, processed: 1, refused: 2 }, default: :pending
