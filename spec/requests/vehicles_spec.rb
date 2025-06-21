@@ -17,11 +17,11 @@ RSpec.describe "/vehicles", type: :request do
   # Vehicle. As you add validations to Vehicle, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryBot.attributes_for(:vehicle)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryBot.attributes_for(:vehicle, license_plate: nil, status: nil, make: nil, model: nil, year: nil)
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +85,7 @@ RSpec.describe "/vehicles", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { make: "Honda" }
       }
 
       it "updates the requested vehicle" do
@@ -93,7 +93,43 @@ RSpec.describe "/vehicles", type: :request do
         patch vehicle_url(vehicle),
               params: { vehicle: new_attributes }, headers: valid_headers, as: :json
         vehicle.reload
-        skip("Add assertions for updated state")
+        expect(response).to have_http_status(:ok)
+        expect(vehicle.make).to eq("Honda")
+      end
+
+      it "renders a JSON response with the vehicle" do
+        vehicle = Vehicle.create! valid_attributes
+        patch vehicle_url(vehicle),
+              params: { vehicle: new_attributes }, headers: valid_headers, as: :json
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to match(a_string_including("application/json"))
+      end
+    end
+
+    context "with invalid parameters" do
+      it "renders a JSON response with errors for the vehicle" do
+        vehicle = Vehicle.create! valid_attributes
+        patch vehicle_url(vehicle),
+              params: { vehicle: invalid_attributes }, headers: valid_headers, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to match(a_string_including("application/json"))
+      end
+    end
+  end
+
+  describe "PATCH /update_status" do
+    context "with valid parameters" do
+      let(:new_attributes) {
+        { status: :in_service }
+      }
+
+      it "updates the requested vehicle" do
+        vehicle = Vehicle.create! valid_attributes
+        patch vehicle_url(vehicle),
+              params: { vehicle: new_attributes }, headers: valid_headers, as: :json
+        vehicle.reload
+        expect(response).to have_http_status(:ok)
+        expect(vehicle.status).to eq(:in_service.to_s)
       end
 
       it "renders a JSON response with the vehicle" do

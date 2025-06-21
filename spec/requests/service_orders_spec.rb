@@ -17,11 +17,13 @@ RSpec.describe "/service_orders", type: :request do
   # ServiceOrder. As you add validations to ServiceOrder, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    vehicle = FactoryBot.create(:vehicle)
+    maintenance_report = FactoryBot.create(:maintenance_report)
+    FactoryBot.attributes_for(:service_order, vehicle_id: vehicle.id, maintenance_report_id: maintenance_report.id, creation_date: Date.current, estimated_cost: 0.0, status: :open)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryBot.attributes_for(:service_order, vehicle_id: nil, maintenance_report_id: nil, creation_date: nil, estimated_cost: nil, status: nil)
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +87,7 @@ RSpec.describe "/service_orders", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { estimated_cost: 100 }
       }
 
       it "updates the requested service_order" do
@@ -93,7 +95,8 @@ RSpec.describe "/service_orders", type: :request do
         patch service_order_url(service_order),
               params: { service_order: new_attributes }, headers: valid_headers, as: :json
         service_order.reload
-        skip("Add assertions for updated state")
+        expect(response).to have_http_status(:ok)
+        expect(service_order.estimated_cost).to eq(100)
       end
 
       it "renders a JSON response with the service_order" do

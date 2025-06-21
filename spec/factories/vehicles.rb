@@ -15,7 +15,7 @@
 FactoryBot.define do
   factory :vehicle do
     sequence(:license_plate) { |n| "ABC#{100 + n}" }
-    sequence(:make) { |n| "Make#{n}" }
+    make { "Make" }
     sequence(:model) { |n| "Model#{n}" }
     year { 2022 }
     status { :available }

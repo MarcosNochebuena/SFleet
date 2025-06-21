@@ -21,7 +21,9 @@ class Vehicle < ApplicationRecord
   validates :license_plate, presence: true, uniqueness: true
   validates :make, :model, :status, :year, presence: true
   validates :year, numericality: { only_integer: true, greater_than_or_equal_to: 1900, less_than_or_equal_to: Date.today.year }
-  # validates :license_plate, format: { with: /^[A-Z0-9]{6,8}$/, message: "License plate must be 6-8 alphanumeric characters" }
+  validates :license_plate, format: { with: /\A[A-Z0-9]{6,8}\z/, message: "must be 6-8 alphanumeric characters" }
+  validates :make, format: { with: /\A[A-Za-z]{3,}\z/, message: "must be 3-8 letters or numbers" }
+  validates :model, format: { with: /\A[A-Za-z0-9]{2,8}\z/, message: "must be 2-8 letters or numbers" }
 
   #  Enum Status
   enum :status, { available: 0, in_service: 1, in_maintenance: 2, out_of_service: 3 }, default: :available

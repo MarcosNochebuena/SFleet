@@ -17,11 +17,12 @@ RSpec.describe "/maintenance_reports", type: :request do
   # MaintenanceReport. As you add validations to MaintenanceReport, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    vehicle = FactoryBot.create(:vehicle)
+    FactoryBot.attributes_for(:maintenance_report, vehicle_id: vehicle.id)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryBot.attributes_for(:maintenance_report, vehicle_id: nil, maintenance_date: nil, description: nil, priority: nil, status: nil, report_date: nil)
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +86,7 @@ RSpec.describe "/maintenance_reports", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { description: "description updated" }
       }
 
       it "updates the requested maintenance_report" do
@@ -93,7 +94,8 @@ RSpec.describe "/maintenance_reports", type: :request do
         patch maintenance_report_url(maintenance_report),
               params: { maintenance_report: new_attributes }, headers: valid_headers, as: :json
         maintenance_report.reload
-        skip("Add assertions for updated state")
+        expect(response).to have_http_status(:ok)
+        expect(maintenance_report.description).to eq("description updated")
       end
 
       it "renders a JSON response with the maintenance_report" do

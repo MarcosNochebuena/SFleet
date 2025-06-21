@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SimulateMaintenanceJob, type: :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "should simulate maintenance" do
+    expect { SimulateMaintenanceJob.perform_later }.to change(MaintenanceReport, :count).by(1)
+  end
 end
