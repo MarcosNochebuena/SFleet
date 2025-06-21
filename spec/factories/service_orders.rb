@@ -23,8 +23,8 @@
 #
 FactoryBot.define do
   factory :service_order do
-    vehicle { build_stubbed(:vehicle) }
-    maintenance_report { build_stubbed(:maintenance_report) }
+    vehicle { FactoryBot.create(:vehicle) }
+    maintenance_report { FactoryBot.create(:maintenance_report) }
     creation_date { Date.current }
     status { :open }
     estimated_cost { 9.99 }
