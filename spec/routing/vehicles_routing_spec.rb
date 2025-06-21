@@ -23,6 +23,10 @@ RSpec.describe VehiclesController, type: :routing do
       expect(patch: "/vehicles/1").to route_to("vehicles#update", id: "1")
     end
 
+    it "routes to #update_status via PATCH" do
+      expect(patch: "/vehicles/1/status").to route_to("vehicles#update_status", id: "1")
+    end
+
     it "routes to #destroy" do
       expect(delete: "/vehicles/1").to route_to("vehicles#destroy", id: "1")
     end

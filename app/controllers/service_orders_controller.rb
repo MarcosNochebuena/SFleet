@@ -25,12 +25,12 @@ class ServiceOrdersController < ApplicationController
 
   # PATCH/PUT /service_orders/1
   def update
-    @service_order.update(service_order_params)
+    @service_order.update!(service_order_params)
     render json: @service_order
   end
 
   def update_status
-    @service_order.update(status: service_order_params[:status])
+    @service_order.update!(status: service_order_params[:status])
     render json: @service_order, status: :ok
   end
 

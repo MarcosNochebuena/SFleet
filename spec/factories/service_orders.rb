@@ -23,10 +23,10 @@
 #
 FactoryBot.define do
   factory :service_order do
-    vehicle { nil }
-    report { nil }
-    creation_date { "2025-06-18" }
-    status { 1 }
-    estimated_cost { "9.99" }
+    vehicle { build_stubbed(:vehicle) }
+    maintenance_report { build_stubbed(:maintenance_report) }
+    creation_date { Date.current }
+    status { :open }
+    estimated_cost { 9.99 }
   end
 end

@@ -14,10 +14,10 @@
 
 FactoryBot.define do
   factory :vehicle do
-    license_plate { "MyString" }
-    make { "MyString" }
-    model { "MyString" }
-    year { 1 }
-    status { 1 }
+    sequence(:license_plate) { |n| "ABC#{100 + n}" }
+    make { "Make" }
+    sequence(:model) { |n| "Model#{n}" }
+    year { 2022 }
+    status { :available }
   end
 end

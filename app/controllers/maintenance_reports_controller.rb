@@ -25,7 +25,7 @@ class MaintenanceReportsController < ApplicationController
 
   # PATCH/PUT /maintenance_reports/1
   def update
-    @maintenance_report.update(maintenance_report_params)
+    @maintenance_report.update!(maintenance_report_params)
     render json: @maintenance_report
   end
 

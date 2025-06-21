@@ -23,6 +23,10 @@ RSpec.describe ServiceOrdersController, type: :routing do
       expect(patch: "/service_orders/1").to route_to("service_orders#update", id: "1")
     end
 
+    it "routes to #update_status via PATCH" do
+      expect(patch: "/service_orders/1/status").to route_to("service_orders#update_status", id: "1")
+    end
+
     it "routes to #destroy" do
       expect(delete: "/service_orders/1").to route_to("service_orders#destroy", id: "1")
     end
