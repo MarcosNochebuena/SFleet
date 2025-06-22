@@ -119,6 +119,41 @@ RSpec.describe "/service_orders", type: :request do
     end
   end
 
+  describe "PATCH /update_status" do
+    context "with valid parameters" do
+      let(:new_attributes) {
+        { status: :closed }
+      }
+
+      it "updates the requested service_order" do
+        service_order = ServiceOrder.create! valid_attributes
+        patch status_service_order_url(service_order),
+              params: { service_order: new_attributes }, headers: valid_headers, as: :json
+        service_order.reload
+        expect(response).to have_http_status(:ok)
+        expect(service_order.status).to eq("closed")
+      end
+
+      it "renders a JSON response with the service_order" do
+        service_order = ServiceOrder.create! valid_attributes
+        patch status_service_order_url(service_order),
+              params: { service_order: new_attributes }, headers: valid_headers, as: :json
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to match(a_string_including("application/json"))
+      end
+    end
+
+    context "with invalid parameters" do
+      it "renders a JSON response with errors for the service_order" do
+        service_order = ServiceOrder.create! valid_attributes
+        patch status_service_order_url(service_order),
+              params: { service_order: invalid_attributes }, headers: valid_headers, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to match(a_string_including("application/json"))
+      end
+    end
+  end
+
   describe "DELETE /destroy" do
     it "destroys the requested service_order" do
       service_order = ServiceOrder.create! valid_attributes

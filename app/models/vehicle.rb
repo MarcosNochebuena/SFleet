@@ -16,6 +16,7 @@ class Vehicle < ApplicationRecord
   audited
   has_many :maintenance_reports
   has_many :service_orders
+  has_associated_audits
 
   #  Validations
   validates :license_plate, presence: true, uniqueness: true

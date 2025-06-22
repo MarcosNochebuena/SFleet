@@ -125,7 +125,7 @@ RSpec.describe "/vehicles", type: :request do
 
       it "updates the requested vehicle" do
         vehicle = Vehicle.create! valid_attributes
-        patch vehicle_url(vehicle),
+        patch status_vehicle_url(vehicle),
               params: { vehicle: new_attributes }, headers: valid_headers, as: :json
         vehicle.reload
         expect(response).to have_http_status(:ok)
@@ -134,7 +134,7 @@ RSpec.describe "/vehicles", type: :request do
 
       it "renders a JSON response with the vehicle" do
         vehicle = Vehicle.create! valid_attributes
-        patch vehicle_url(vehicle),
+        patch status_vehicle_url(vehicle),
               params: { vehicle: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -144,7 +144,7 @@ RSpec.describe "/vehicles", type: :request do
     context "with invalid parameters" do
       it "renders a JSON response with errors for the vehicle" do
         vehicle = Vehicle.create! valid_attributes
-        patch vehicle_url(vehicle),
+        patch status_vehicle_url(vehicle),
               params: { vehicle: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))

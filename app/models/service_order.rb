@@ -22,7 +22,8 @@
 #  fk_rails_...  (vehicle_id => vehicles.id)
 #
 class ServiceOrder < ApplicationRecord
-  audited
+  audited associated_with: :vehicle
+  audited associated_with: :maintenance_report
   belongs_to :vehicle
   belongs_to :maintenance_report
 

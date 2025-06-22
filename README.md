@@ -27,13 +27,14 @@ cd SFleet
 bundle install
 rails db:create
 rails db:migrate
+rails db:seed
 ```
 
 ## Variables de entorno
 ```markdown
-## Configuración de entorno
+### Configuración de entorno
 Crear un archivo application.yml en la carpeta config con las siguientes variables:
-```
+```markdown
 database_adapter: postgresql
 database_username: your_postgres_user
 database_password: your_postgres_password
@@ -50,9 +51,12 @@ rails server
 ```bash
 rspec
 ```
-## Ejecutar el linter
+## Consultar la cobertura de pruebas
+La cobertura se genera automáticamente al correr los tests con RSpec.
+Abre el archivo `coverage/index.html` en tu navegador para ver el reporte:
+
 ```bash
-rubocop
+open coverage/index.html
 ```
 ## Ejemplos de endpoints
 Veículos

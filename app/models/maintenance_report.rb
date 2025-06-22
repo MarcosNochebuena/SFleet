@@ -20,9 +20,10 @@
 #  fk_rails_...  (vehicle_id => vehicles.id)
 #
 class MaintenanceReport < ApplicationRecord
-  audited
+  audited associated_with: :vehicle
   belongs_to :vehicle
   has_many :service_orders, dependent: :destroy
+  has_associated_audits
 
   # Validations
   validates :description, :vehicle_id, :report_date, :priority, :status, presence: true
