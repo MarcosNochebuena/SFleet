@@ -25,21 +25,27 @@ Este proyecto simula un sistema de monitoreo y mantenimiento de vehículos, con 
 git clone https://github.com/marcosn/SFleet.git
 cd SFleet
 bundle install
-rails db:create
-rails db:migrate
-rails db:seed
 ```
-
 ## Variables de entorno
 ```markdown
 ### Configuración de entorno
 Crear un archivo .env en la raíz del proyecto con las siguientes variables:
-```markdown
   DB_ADAPTER= "postgresql"
   DB_HOST= "your_host"
   DB_PORT= "5432"
   DB_USERNAME= "your_username"
   DB_PASSWORD= "your_password"
+```
+
+# Crear base de datos
+```bash
+rails db:create
+rails db:migrate
+rails db:seed
+```
+o
+```bash
+rails db:setup
 ```
 
 ## Iniciar el servidor
@@ -59,7 +65,7 @@ Abre el archivo `coverage/index.html` en tu navegador para ver el reporte:
 open coverage/index.html
 ```
 ## Ejemplos de endpoints
-Veículos
+Vehículos
 ```markdown
 GET /vehicles
 GET /vehicles/:id
@@ -101,8 +107,8 @@ GET /vehicles
     "model": "Corolla",
     "year": 2022,
     "license_plate": "ABC123",
-    "created_at": "2022-01-01T00:00:00.000Z",
-    "updated_at": "2022-01-01T00:00:00.000Z"
+    "created_at": "2025-06-22T00:52:09.718Z",
+    "updated_at": "2025-06-22T00:52:09.718Z"
     }
 ]
 ```
@@ -111,15 +117,28 @@ GET /vehicles
 ```bash
 POST /vehicles
 ```
+body:
+```json
+{
+    "license_plate": "ABC123",
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": 2022,
+    "status": "available"
+}
+```
 
 ## Ejemplo de respuesta POST /vehicles
 ```json
 {
     "id": 1,
-    "brand": "Toyota",
+    "license_plate": "ABC123",
+    "make": "Toyota",
     "model": "Corolla",
     "year": 2022,
-    "license_plate": "ABC123"
+    "status": "available",
+    "created_at": "2025-06-22T00:52:09.718Z",
+    "updated_at": "2025-06-22T00:52:09.718Z"
 }
 ```
 
