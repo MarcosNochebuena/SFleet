@@ -33,13 +33,13 @@ rails db:seed
 ## Variables de entorno
 ```markdown
 ### Configuración de entorno
-Crear un archivo application.yml en la carpeta config con las siguientes variables:
+Crear un archivo .env en la raíz del proyecto con las siguientes variables:
 ```markdown
-database_adapter: postgresql
-database_username: your_postgres_user
-database_password: your_postgres_password
-database_host: your_postgres_host
-database_port: your_postgres_port || 5432
+  DB_ADAPTER= "postgresql"
+  DB_HOST= "your_host"
+  DB_PORT= "5432"
+  DB_USERNAME= "your_username"
+  DB_PASSWORD= "your_password"
 ```
 
 ## Iniciar el servidor
